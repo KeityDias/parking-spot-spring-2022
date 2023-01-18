@@ -19,10 +19,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParkingSpotRepository extends JpaRepository <ParkingSpotModel, UUID>{
 
-    public boolean existsByLicensePlateCar(String licensePlateCar);
+     boolean existsByLicensePlateCar(String licensePlateCar);
 
-    public boolean existsByParkingSpotNumber(String parkingSpotNumber);
+     boolean existsByParkingSpotNumber(String parkingSpotNumber);
 
-    public boolean existsByApartmentAndBlock(String apartment, String block);
+     boolean existsByApartmentAndBlock(String apartment, String block);
    
 }

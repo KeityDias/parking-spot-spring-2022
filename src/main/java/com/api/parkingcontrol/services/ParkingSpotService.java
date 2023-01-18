@@ -9,6 +9,7 @@ package com.api.parkingcontrol.services;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.repository.ParkingSpotRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class ParkingSpotService {
      * @return
      * *O Transitional permite o RollBack se algo der errado durante a transação,voltando tudo
      * ao normal e é usado quando há relacionamentos que tem deleção ou salvamento em cascata;
+     * 
+     * Antes de salvar os dados, é feito a verificação se já existe um registro da placa do carro,
+     * número da vaga, do apartamento ou bloco informado;
      */
     @Transactional
     public ParkingSpotModel save(ParkingSpotModel parkingSpotModel) {
@@ -49,17 +53,21 @@ public class ParkingSpotService {
     public boolean existsByApartmentAndBlock(String apartment, String block) {
         return parkingSpotRepository.existsByApartmentAndBlock(apartment, block);
     }
-
-    public Page<ParkingSpotModel> findAll(Pageable pageable) {
-        return parkingSpotRepository.findAll(pageable);
-    }
-
-    public Optional<ParkingSpotModel> findById(UUID id) {
-        return parkingSpotRepository.findById(id);
-    }
-
+    
+    /**
+     * Por ser um método destrutivo, é preciso ter o RollBack;
+     * @param parkingSpotModel 
+     */
     @Transactional
     public void delete(ParkingSpotModel parkingSpotModel) {
         parkingSpotRepository.delete(parkingSpotModel);
+    }
+
+     public Page<ParkingSpotModel> findAll(Pageable pageable) {
+     return parkingSpotRepository.findAll(pageable);
+        
+    }
+    public Optional<ParkingSpotModel> findById(UUID id){
+    return parkingSpotRepository.findById(id);
     }
 }
